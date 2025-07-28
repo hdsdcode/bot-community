@@ -7,7 +7,7 @@ from telegram.ext import (
 from fpdf import FPDF
 import io
 import re
-import os
+import os # <-- Linha adicionada ou mantida se já existia
 
 # --- Configuração do Logger ---
 logging.basicConfig(
@@ -279,9 +279,9 @@ def gerar_pdf(data):
             
             fim_idioma = lang.get('fim', '')
             if fim_idioma.upper() == 'CURSANDO':
-                pdf.cell(0, 5, f"Início: {lang.get('ini', '')}     |     Situação: Cursando", 0, 1)
+                pdf.cell(0, 5, f"Início: {lang.get('ini', '')}      |      Situação: Cursando", 0, 1)
             else:
-                pdf.cell(0, 5, f"Início: {lang.get('ini', '')}     |     Conclusão: {fim_idioma}", 0, 1)
+                pdf.cell(0, 5, f"Início: {lang.get('ini', '')}      |      Conclusão: {fim_idioma}", 0, 1)
             pdf.set_x(left_margin) 
     else:
         pdf.cell(0, 6, "Nenhum idioma informado.", 0, 1) 
@@ -412,7 +412,7 @@ async def email(update, context):
     email_text = update.message.text.strip()
     if not validar_email(email_text):
         await update.message.reply_text("⚠️ **E-mail inválido!** Por favor, verifique e tente novamente. Ex: seu.email@dominio.com")
-        return EMAIL
+    return EMAIL
     context.user_data['email'] = email_text.lower()
     await update.message.reply_text("🎯 Qual é o seu **objetivo profissional**? (Ex: Procurando oportunidade como Desenvolvedor Júnior em Python.)", parse_mode='Markdown')
     context.user_data['current_state'] = OBJETIVO
@@ -821,7 +821,14 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 def main():
-    token = "7981822712:AAGCtHIAkmbz0-UcNdLLPXD_pNXAa65x9rA" 
+    # Obtenha o token da variável de ambiente TELEGRAM_BOT_TOKEN
+    token = os.getenv('TELEGRAM_BOT_TOKEN') 
+    
+    # Verifique se o token foi carregado
+    if not token:
+        logger.error("ERRO: O token do bot do Telegram não foi encontrado nas variáveis de ambiente.")
+        logger.error("Por favor, defina a variável de ambiente 'TELEGRAM_BOT_TOKEN' no Render.")
+        return # Sai da função se o token não for encontrado
 
     application = ApplicationBuilder().token(token).build()
 
