@@ -9,8 +9,7 @@ import io
 import re
 import os # <-- Linha adicionada ou mantida se já existia
 
-print('Testando uma alteração')
-
+# --- Configuração do Logger ---
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
