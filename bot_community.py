@@ -7,7 +7,7 @@ from telegram.ext import (
 from fpdf import FPDF
 import io
 import re
-import os # <-- Linha adicionada ou mantida se já existia
+import os # Importação já presente, mantida.
 
 # --- Configuração do Logger ---
 logging.basicConfig(
@@ -27,12 +27,12 @@ logger = logging.getLogger(__name__)
     ADD_ACADEMIC_ITEM,
 
     # Estados genéricos para Experiência Profissional
-    TIPO_CONTRATO, 
-    EMPRESA, CARGO, ADM, DEM, ATIVIDADES, RESULTADOS, ADD_EMP, 
-    MEI_TRABALHOS, 
+    TIPO_CONTRATO,
+    EMPRESA, CARGO, ADM, DEM, ATIVIDADES, RESULTADOS, ADD_EMP,
+    MEI_TRABALHOS,
 
     # Estados genéricos para Idiomas
-    IDIOMAS_SIM, ASK_IDIOMA_INST, ASK_IDIOMA_NOME, ASK_IDIOMA_NIVEL, ASK_IDIOMA_INI, ASK_IDIOMA_FIM, 
+    IDIOMAS_SIM, ASK_IDIOMA_INST, ASK_IDIOMA_NOME, ASK_IDIOMA_NIVEL, ASK_IDIOMA_INI, ASK_IDIOMA_FIM,
     ADD_IDIOMA,
 
     CURSOS, CANCEL
@@ -93,7 +93,7 @@ def gerar_pdf(data):
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.set_text_color(0) # Black
     
-    left_margin = 20 
+    left_margin = 20
     pdf.set_left_margin(left_margin)
     pdf.set_x(left_margin)
 
@@ -107,15 +107,15 @@ def gerar_pdf(data):
         pdf.set_x(left_margin)
 
     secao("Dados Pessoais")
-    pdf.cell(0, 6, f"Nome: {data.get('nome', 'Não informado')}", 0, 1) 
+    pdf.cell(0, 6, f"Nome: {data.get('nome', 'Não informado')}", 0, 1)
     pdf.set_x(left_margin)
-    pdf.cell(0, 6, f"Idade: {data.get('idade', 'Não informada')}", 0, 1) 
+    pdf.cell(0, 6, f"Idade: {data.get('idade', 'Não informada')}", 0, 1)
     pdf.set_x(left_margin)
-    pdf.cell(0, 6, f"Estado Civil: {data.get('estado_civil', 'Não informado')}", 0, 1) 
+    pdf.cell(0, 6, f"Estado Civil: {data.get('estado_civil', 'Não informado')}", 0, 1)
     pdf.set_x(left_margin)
-    pdf.cell(0, 6, f"Telefone: {data.get('telefone', 'Não informado')}", 0, 1) 
+    pdf.cell(0, 6, f"Telefone: {data.get('telefone', 'Não informado')}", 0, 1)
     pdf.set_x(left_margin)
-    pdf.cell(0, 6, f"E-mail: {data.get('email', 'Não informado')}", 0, 1) 
+    pdf.cell(0, 6, f"E-mail: {data.get('email', 'Não informado')}", 0, 1)
     pdf.set_x(left_margin)
     
     linkedin_url = data.get('linkedin', '')
@@ -132,9 +132,9 @@ def gerar_pdf(data):
     secao("Formação Acadêmica")
     if data.get('forma_2grau') == 'S':
         ano_2g = data.get('ano_2grau', 'Não informado')
-        pdf.cell(0, 6, f"Ensino Médio: Concluído em {ano_2g}", 0, 1) 
+        pdf.cell(0, 6, f"Ensino Médio: Concluído em {ano_2g}", 0, 1)
     else:
-        pdf.cell(0, 6, f"Ensino Médio: Incompleto", 0, 1) 
+        pdf.cell(0, 6, f"Ensino Médio: Incompleto", 0, 1)
     pdf.set_x(left_margin)
 
     graduacoes = data.get('graduacoes', [])
@@ -142,11 +142,11 @@ def gerar_pdf(data):
         for i, grad in enumerate(graduacoes):
             pdf.ln(1)
             pdf.set_x(left_margin)
-            pdf.set_font('Arial', 'B', 11) 
+            pdf.set_font('Arial', 'B', 11)
             pdf.cell(0, 7, f"Graduação {i+1}:", 0, 1)
             pdf.set_font('Arial', '', 11)
             
-            pdf.set_x(left_margin + 5) 
+            pdf.set_x(left_margin + 5)
             pdf.cell(0, 5, f"Universidade: {grad.get('faculdade', '')}", 0, 1)
             pdf.set_x(left_margin + 5)
             pdf.cell(0, 5, f"Curso: {grad.get('curso', '')}", 0, 1)
@@ -156,7 +156,7 @@ def gerar_pdf(data):
                 pdf.cell(0, 5, f"Situação: Concluído em {grad.get('ano', '')}", 0, 1)
             else:
                 pdf.cell(0, 5, f"Situação: Cursando", 0, 1)
-            pdf.set_x(left_margin) 
+            pdf.set_x(left_margin)
     else:
         pdf.cell(0, 6, "Nenhuma graduação informada.", 0, 1)
         pdf.set_x(left_margin)
@@ -170,7 +170,7 @@ def gerar_pdf(data):
             pdf.cell(0, 7, f"Pós-Graduação {i+1}:", 0, 1)
             pdf.set_font('Arial', '', 11)
 
-            pdf.set_x(left_margin + 5) 
+            pdf.set_x(left_margin + 5)
             pdf.cell(0, 5, f"Universidade: {pos.get('faculdade', '')}", 0, 1)
             pdf.set_x(left_margin + 5)
             pdf.cell(0, 5, f"Curso: {pos.get('curso', '')}", 0, 1)
@@ -180,9 +180,9 @@ def gerar_pdf(data):
                 pdf.cell(0, 5, f"Situação: Concluído em {pos.get('ano', '')}", 0, 1)
             else:
                 pdf.cell(0, 5, f"Situação: Cursando", 0, 1)
-            pdf.set_x(left_margin) 
+            pdf.set_x(left_margin)
     else:
-        pdf.cell(0, 6, "Nenhuma pós-graduação informada.", 0, 1) 
+        pdf.cell(0, 6, "Nenhuma pós-graduação informada.", 0, 1)
         pdf.set_x(left_margin)
 
 
@@ -190,36 +190,36 @@ def gerar_pdf(data):
     
     if data.get('tipo_contrato') == '2':
         pdf.set_font('Arial', 'B', 12)
-        pdf.cell(0, 7, "Tipo de Contrato: Microempreendedor Individual (MEI)", 0, 1) 
+        pdf.cell(0, 7, "Tipo de Contrato: Microempreendedor Individual (MEI)", 0, 1)
         pdf.set_x(left_margin)
         pdf.set_font('Arial', '', 12)
         tipos_trabalho = data.get('mei_trabalhos', '')
         if tipos_trabalho:
             pdf.set_font('Arial', 'B', 10)
-            pdf.cell(0, 6, "Principais Trabalhos/Serviços:", 0, 1) 
+            pdf.cell(0, 6, "Principais Trabalhos/Serviços:", 0, 1)
             pdf.set_x(left_margin)
             pdf.set_font('Arial', '', 10)
             for item in tipos_trabalho.split(','):
                 if item.strip():
-                    pdf.set_x(left_margin + 5) 
+                    pdf.set_x(left_margin + 5)
                     pdf.multi_cell(0, 5, f"- {item.strip()}", 0, 'L')
-            pdf.set_x(left_margin) 
+            pdf.set_x(left_margin)
         else:
-            pdf.cell(0, 6, "Nenhum tipo de trabalho MEI informado.", 0, 1) 
+            pdf.cell(0, 6, "Nenhum tipo de trabalho MEI informado.", 0, 1)
             pdf.set_x(left_margin)
     
-    elif data.get('tipo_contrato') == '1': 
+    elif data.get('tipo_contrato') == '1':
         experiencias = data.get('experiencias', [])
         if experiencias:
             pdf.set_font('Arial', 'B', 12)
-            pdf.cell(0, 7, "Tipo de Contrato: CLT", 0, 1) 
+            pdf.cell(0, 7, "Tipo de Contrato: CLT", 0, 1)
             pdf.set_x(left_margin)
             pdf.set_font('Arial', '', 12)
             for i, exp in enumerate(experiencias):
                 pdf.ln(1)
                 pdf.set_x(left_margin)
                 pdf.set_font('Arial', 'B', 12)
-                pdf.cell(0, 7, f"Empresa {i+1}: {exp.get('empresa', '')}", 0, 1) 
+                pdf.cell(0, 7, f"Empresa {i+1}: {exp.get('empresa', '')}", 0, 1)
                 pdf.set_x(left_margin)
                 pdf.set_font('Arial', '', 12)
                 pdf.cell(0, 5, f"Período: {exp.get('adm', '')} a {exp.get('dem', '')}", 0, 1)
@@ -228,32 +228,32 @@ def gerar_pdf(data):
                 atividades = exp.get('atividades', '')
                 if atividades:
                     pdf.set_font('Arial', 'B', 10)
-                    pdf.cell(0, 6, "Principais Atividades:", 0, 1) 
+                    pdf.cell(0, 6, "Principais Atividades:", 0, 1)
                     pdf.set_x(left_margin)
                     pdf.set_font('Arial', '', 10)
                     for item in atividades.split('\n'):
                         if item.strip():
-                            pdf.set_x(left_margin + 5) 
+                            pdf.set_x(left_margin + 5)
                             pdf.multi_cell(0, 5, f"- {item.strip()}", 0, 'L')
-                    pdf.set_x(left_margin) 
+                    pdf.set_x(left_margin)
                 
                 resultados = exp.get('resultados', '')
                 if resultados:
                     pdf.set_font('Arial', 'B', 10)
-                    pdf.cell(0, 6, "Principais Resultados:", 0, 1) 
+                    pdf.cell(0, 6, "Principais Resultados:", 0, 1)
                     pdf.set_x(left_margin)
                     pdf.set_font('Arial', '', 10)
                     for item in resultados.split('\n'):
                         if item.strip():
-                            pdf.set_x(left_margin + 5) 
+                            pdf.set_x(left_margin + 5)
                             pdf.multi_cell(0, 5, f"- {item.strip()}", 0, 'L')
-                    pdf.set_x(left_margin) 
+                    pdf.set_x(left_margin)
                 pdf.ln(1)
         else:
-            pdf.cell(0, 6, "Nenhuma experiência profissional CLT informada.", 0, 1) 
+            pdf.cell(0, 6, "Nenhuma experiência profissional CLT informada.", 0, 1)
             pdf.set_x(left_margin)
-    else: 
-        pdf.cell(0, 6, "Nenhuma experiência profissional informada.", 0, 1) 
+    else:
+        pdf.cell(0, 6, "Nenhuma experiência profissional informada.", 0, 1)
         pdf.set_x(left_margin)
 
 
@@ -268,10 +268,10 @@ def gerar_pdf(data):
             pdf.cell(0, 7, f"Idioma {i+1}:", 0, 1)
             pdf.set_font('Arial', '', 11)
 
-            pdf.set_x(left_margin + 5) 
+            pdf.set_x(left_margin + 5)
             pdf.cell(0, 5, f"Instituição: {lang.get('instituicao', '')}", 0, 1)
             pdf.set_x(left_margin + 5)
-            pdf.cell(0, 5, f"Idioma: {lang.get('nome_idioma', '')}", 0, 1) 
+            pdf.cell(0, 5, f"Idioma: {lang.get('nome_idioma', '')}", 0, 1)
             pdf.set_x(left_margin + 5)
             nivel = lang.get('nivel', '').upper()
             pdf.cell(0, 5, f"Nível: {nivel_map.get(nivel, nivel)}", 0, 1)
@@ -282,21 +282,21 @@ def gerar_pdf(data):
                 pdf.cell(0, 5, f"Início: {lang.get('ini', '')}      |      Situação: Cursando", 0, 1)
             else:
                 pdf.cell(0, 5, f"Início: {lang.get('ini', '')}      |      Conclusão: {fim_idioma}", 0, 1)
-            pdf.set_x(left_margin) 
+            pdf.set_x(left_margin)
     else:
-        pdf.cell(0, 6, "Nenhum idioma informado.", 0, 1) 
+        pdf.cell(0, 6, "Nenhum idioma informado.", 0, 1)
         pdf.set_x(left_margin)
 
     secao("Cursos Adicionais")
     cursos_info = data.get('cursos', '')
     if cursos_info and cursos_info.upper() != 'N':
         for item in cursos_info.split(','):
-            if item.strip(): 
-                pdf.set_x(left_margin + 5) 
+            if item.strip():
+                pdf.set_x(left_margin + 5)
                 pdf.cell(0, 6, f"- {item.strip()}", 0, 1)
-        pdf.set_x(left_margin) 
+        pdf.set_x(left_margin)
     else:
-        pdf.cell(0, 6, "Nenhum curso adicional ou certificação informada.", 0, 1) 
+        pdf.cell(0, 6, "Nenhum curso adicional ou certificação informada.", 0, 1)
         pdf.set_x(left_margin)
 
     return pdf
@@ -412,26 +412,26 @@ async def email(update, context):
     email_text = update.message.text.strip()
     if not validar_email(email_text):
         await update.message.reply_text("⚠️ **E-mail inválido!** Por favor, verifique e tente novamente. Ex: seu.email@dominio.com")
-    return EMAIL
+        return EMAIL # Mantém no estado atual para nova tentativa
     context.user_data['email'] = email_text.lower()
     await update.message.reply_text("🎯 Qual é o seu **objetivo profissional**? (Ex: Procurando oportunidade como Desenvolvedor Júnior em Python.)", parse_mode='Markdown')
     context.user_data['current_state'] = OBJETIVO
     return OBJETIVO
 
 async def objetivo(update, context):
-    return await ask_text_standard(update, context, 
+    return await ask_text_standard(update, context,
                                    "🔗 Se você tiver um **perfil no LinkedIn**, por favor, cole a URL completa aqui.\n\n*Ex: https://www.linkedin.com/in/seu-nome*\n\n*Se não tiver, digite N para pular.*",
                                    'objetivo', LINKEDIN,
                                    lambda x: bool(x.strip()), "⚠️ **Objetivo inválido!** Por favor, digite seu objetivo profissional.")
 
 async def linkedin_profile(update, context):
     linkedin_url = update.message.text.strip()
-    context.user_data['linkedin'] = linkedin_url if linkedin_url.upper() != 'N' else ''
-
+    
     if not validar_linkedin(linkedin_url):
         await update.message.reply_text("⚠️ **URL do LinkedIn inválida!** Certifique-se de que o formato está correto (Ex: https://www.linkedin.com/in/seu-nome) ou digite *N* para pular.", parse_mode='Markdown')
         return LINKEDIN
-    
+        
+    context.user_data['linkedin'] = linkedin_url if linkedin_url.upper() != 'N' else ''
     await update.message.reply_text("✅ Vamos para a **Formação Acadêmica**.\nVocê **concluiu** o **Ensino Médio**? Digite *S* para Sim ou *N* para Não.", parse_mode='Markdown')
     context.user_data['current_state'] = FORMA_2GRAU
     return FORMA_2GRAU
@@ -446,9 +446,9 @@ async def forma_2grau(update, context):
         await update.message.reply_text("Ótimo! Em que **ano** você **concluiu** o Ensino Médio? (Ex: 2020)", parse_mode='Markdown')
         context.user_data['current_state'] = ANO_2GRAU
         return ANO_2GRAU
-    else: 
+    else:
         context.user_data['ano_2grau'] = ''
-        context.user_data['graduacoes'] = [] 
+        context.user_data['graduacoes'] = []
         context.user_data['pos_graduacoes'] = []
         await update.message.reply_text(
             "💼 Agora vamos para a **Experiência Profissional**.\nVocê se identifica como **trabalhador CLT** ou **Microempreendedor Individual (MEI)**?\n\n*1* para **CLT**\n*2* para **MEI**",
@@ -457,7 +457,7 @@ async def forma_2grau(update, context):
         context.user_data['current_state'] = TIPO_CONTRATO
         context.user_data['current_emp_index'] = 0
         context.user_data['experiencias'] = []
-        context.user_data['mei_trabalhos'] = '' 
+        context.user_data['mei_trabalhos'] = ''
         return TIPO_CONTRATO
 
 async def ano_2grau(update, context):
@@ -492,15 +492,15 @@ async def ask_qtd_grad(update, context):
         return ASK_QTD_POS
 
 async def ask_faculdade(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Qual é o **Curso** da Graduação {context.user_data['current_academic_index'] + 1}? (Ex: Engenharia Civil)", 
-                                   'faculdade', ASK_CURSO, 
+    return await ask_text_standard(update, context,
+                                   f"Qual é o **Curso** da Graduação {context.user_data['current_academic_index'] + 1}? (Ex: Engenharia Civil)",
+                                   'faculdade', ASK_CURSO,
                                    lambda x: bool(x.strip()), "⚠️ **Nome da faculdade inválido!** Por favor, digite o nome da Universidade ou Faculdade.")
 
 async def ask_curso(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Qual a **situação** da sua Graduação {context.user_data['current_academic_index'] + 1}? Digite *C* para Concluído ou *I* para Incompleto (Cursando).", 
-                                   'curso', ASK_SITUACAO, 
+    return await ask_text_standard(update, context,
+                                   f"Qual a **situação** da sua Graduação {context.user_data['current_academic_index'] + 1}? Digite *C* para Concluído ou *I* para Incompleto (Cursando).",
+                                   'curso', ASK_SITUACAO,
                                    lambda x: bool(x.strip()), "⚠️ **Nome do curso inválido!** Por favor, digite o curso.")
 
 async def ask_situacao(update, context):
@@ -523,9 +523,9 @@ async def ask_situacao(update, context):
         return ADD_ACADEMIC_ITEM
 
 async def ask_ano_grad(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Deseja adicionar **outra Graduação**? Digite *S* para Sim ou *N* para Não.", 
-                                   'ano', ADD_ACADEMIC_ITEM, 
+    return await ask_text_standard(update, context,
+                                   "Deseja adicionar **outra Graduação**? Digite *S* para Sim ou *N* para Não.",
+                                   'ano', ADD_ACADEMIC_ITEM,
                                    validar_ano, "⚠️ **Ano inválido!** Digite o ano com 4 dígitos. Ex: 2025")
 
 async def add_academic_item(update, context):
@@ -559,7 +559,7 @@ async def add_academic_item(update, context):
             context.user_data['current_state'] = TIPO_CONTRATO
             context.user_data['current_emp_index'] = 0
             context.user_data['experiencias'] = []
-            context.user_data['mei_trabalhos'] = '' 
+            context.user_data['mei_trabalhos'] = ''
             return TIPO_CONTRATO
 
 async def ask_qtd_pos(update, context):
@@ -584,20 +584,20 @@ async def ask_qtd_pos(update, context):
         context.user_data['current_state'] = TIPO_CONTRATO
         context.user_data['current_emp_index'] = 0
         context.user_data['experiencias'] = []
-        context.user_data['mei_trabalhos'] = '' 
+        context.user_data['mei_trabalhos'] = ''
         return TIPO_CONTRATO
 
 async def ask_pos_faculdade(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Qual é o **Curso** da Pós-Graduação {context.user_data['current_academic_index'] + 1}? (Ex: MBA em Gestão)", 
-                                   'faculdade', ASK_POS_CURSO, 
+    return await ask_text_standard(update, context,
+                                   f"Qual é o **Curso** da Pós-Graduação {context.user_data['current_academic_index'] + 1}? (Ex: MBA em Gestão)",
+                                   'faculdade', ASK_POS_CURSO,
                                    lambda x: bool(x.strip()), "⚠️ **Nome da Faculdade inválido!** Por favor, digite o nome da Universidade ou Faculdade.")
 
 
 async def ask_pos_curso(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Qual a **situação** da Pós-Graduação {context.user_data['current_academic_index'] + 1}? Digite *C* para Concluído ou *I* para Incompleto (Cursando).", 
-                                   'curso', ASK_POS_SITUACAO, 
+    return await ask_text_standard(update, context,
+                                   f"Qual a **situação** da Pós-Graduação {context.user_data['current_academic_index'] + 1}? Digite *C* para Concluído ou *I* para Incompleto (Cursando).",
+                                   'curso', ASK_POS_SITUACAO,
                                    lambda x: bool(x.strip()), "⚠️ **Nome do curso inválido!** Por favor, digite o curso.")
 
 async def ask_pos_situacao(update, context):
@@ -620,29 +620,29 @@ async def ask_pos_situacao(update, context):
         return ADD_ACADEMIC_ITEM
 
 async def ask_pos_ano(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Deseja adicionar **outra Pós-Graduação**? Digite *S* para Sim ou *N* para Não.", 
-                                   'ano', ADD_ACADEMIC_ITEM, 
+    return await ask_text_standard(update, context,
+                                   "Deseja adicionar **outra Pós-Graduação**? Digite *S* para Sim ou *N* para Não.",
+                                   'ano', ADD_ACADEMIC_ITEM,
                                    validar_ano, "⚠️ **Ano inválido!** Digite o ano com 4 dígitos. Ex: 2025")
 
 async def tipo_contrato(update, context):
     resposta = update.message.text.strip()
     
-    if resposta == '1': 
+    if resposta == '1':
         context.user_data['tipo_contrato'] = '1'
-        context.user_data['experiencias'] = [] 
+        context.user_data['experiencias'] = []
         await update.message.reply_text("🏢 Perfeito! Qual o **nome da última empresa** que você trabalhou com **carteira assinada**?\n\n*Se não houver, digite N para pular esta seção.*", parse_mode='Markdown')
         context.user_data['current_state'] = EMPRESA
         context.user_data['current_emp_index'] = 0
         return EMPRESA
-    elif resposta == '2': 
+    elif resposta == '2':
         context.user_data['tipo_contrato'] = '2'
         await update.message.reply_text(
             "Entendido! Como **MEI**, quais são os principais **tipos de trabalho** ou serviços que você realiza? Liste-os **separados por vírgula**.\n\n*Ex: Desenvolvedor Web, Consultor de Marketing, Designer Gráfico*",
             parse_mode='Markdown'
         )
         context.user_data['current_state'] = MEI_TRABALHOS
-        context.user_data['experiencias'] = [] 
+        context.user_data['experiencias'] = []
         return MEI_TRABALHOS
     else:
         await update.message.reply_text("⚠️ **Opção inválida!** Digite *1* para CLT ou *2* para Microempreendedor Individual.", parse_mode='Markdown')
@@ -665,40 +665,39 @@ async def empresa(update, context):
         context.user_data['current_idioma_index'] = 0
         context.user_data['idiomas'] = []
         return IDIOMAS_SIM
-    
-    return await ask_text_standard(update, context, 
-                                   f"Qual o **cargo exercido** na {text.title()}?", 
-                                   'empresa', CARGO, 
+    return await ask_text_standard(update, context,
+                                   f"Qual o **cargo exercido** na {text.title()}?",
+                                   'empresa', CARGO,
                                    lambda x: bool(x.strip()), "⚠️ **Nome da empresa inválido!** Por favor, digite o nome da empresa ou 'N' para pular.")
 
 async def cargo(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Agora, qual a **data de admissão**? (Formato obrigatório MM/YYYY. Ex: 01/2020)", 
-                                   'cargo', ADM, 
+    return await ask_text_standard(update, context,
+                                   "Agora, qual a **data de admissão**? (Formato obrigatório MM/YYYY. Ex: 01/2020)",
+                                   'cargo', ADM,
                                    lambda x: bool(x.strip()), "⚠️ **Cargo inválido!** Por favor, digite o cargo exercido.")
 
 async def adm(update, context):
-    return await ask_text_standard(update, context, 
-                                   "E a **data de demissão ou saída**? (Formato obrigatório MM/YYYY ou 'Atual'. Ex: 12/2022 ou Atual)", 
-                                   'adm', DEM, 
+    return await ask_text_standard(update, context,
+                                   "E a **data de demissão ou saída**? (Formato obrigatório MM/YYYY ou 'Atual'. Ex: 12/2022 ou Atual)",
+                                   'adm', DEM,
                                    validar_mes_ano, "⚠️ **Data inválida!** Formato obrigatório MM/YYYY ou 'Atual'.")
 
 async def dem(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Liste suas **principais atividades e responsabilidades** neste cargo.\nVocê pode usar uma por linha ou separá-las por ponto e vírgula (;).\n\n*Exemplo:*\n*- Gestão de projetos*\n*- Desenvolvimento de software*\n\n*Se preferir não informar, digite N.*", 
-                                   'dem', ATIVIDADES, 
+    return await ask_text_standard(update, context,
+                                   "Liste suas **principais atividades e responsabilidades** neste cargo.\nVocê pode usar uma por linha ou separá-las por ponto e vírgula (;).\n\n*Exemplo:*\n*- Gestão de projetos*\n*- Desenvolvimento de software*\n\n*Se preferir não informar, digite N.*",
+                                   'dem', ATIVIDADES,
                                    lambda x: True)
 
 async def atividades(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Excelente! E quais foram seus **principais resultados ou conquistas** nessa experiência? (Seja específico, com números se possível!)\n\nVocê pode usar uma por linha ou separá-las por ponto e vírgula (;).\n\n*Exemplo:*\n*- Redução de custos em 15%*\n*- Aumento de vendas em 20%*\n\n*Se preferir não informar, digite N.*", 
-                                   'atividades', RESULTADOS, 
+    return await ask_text_standard(update, context,
+                                   "Excelente! E quais foram seus **principais resultados ou conquistas** nessa experiência? (Seja específico, com números se possível!)\n\nVocê pode usar uma por linha ou separá-las por ponto e vírgula (;).\n\n*Exemplo:*\n*- Redução de custos em 15%*\n*- Aumento de vendas em 20%*\n\n*Se preferir não informar, digite N.*",
+                                   'atividades', RESULTADOS,
                                    lambda x: True)
 
 async def resultados(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Deseja adicionar **outra Experiência Profissional**? Digite *S* para Sim ou *N* para Não.", 
-                                   'resultados', ADD_EMP, 
+    return await ask_text_standard(update, context,
+                                   "Deseja adicionar **outra Experiência Profissional**? Digite *S* para Sim ou *N* para Não.",
+                                   'resultados', ADD_EMP,
                                    lambda x: True)
     
 async def add_emp(update, context):
@@ -737,15 +736,15 @@ async def idiomas_sim(update, context):
         return ASK_IDIOMA_INST
 
 async def ask_idioma_inst(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Qual o **nome do idioma** {context.user_data['current_idioma_index'] + 1}? (Ex: Inglês)", 
-                                   'instituicao', ASK_IDIOMA_NOME, 
+    return await ask_text_standard(update, context,
+                                   f"Qual o **nome do idioma** {context.user_data['current_idioma_index'] + 1}? (Ex: Inglês)",
+                                   'instituicao', ASK_IDIOMA_NOME,
                                    lambda x: bool(x.strip()), "⚠️ **Instituição inválida!** Por favor, digite o nome da instituição do idioma.")
 
 async def ask_idioma_nome(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Qual o **nível de proficiência** do idioma {context.user_data['current_idioma_index'] + 1}? Digite a letra correspondente:\n\n*B* para **Básico**\n*I* para **Intermediário**\n*A* para **Avançado**", 
-                                   'nome_idioma', ASK_IDIOMA_NIVEL, 
+    return await ask_text_standard(update, context,
+                                   f"Qual o **nível de proficiência** do idioma {context.user_data['current_idioma_index'] + 1}? Digite a letra correspondente:\n\n*B* para **Básico**\n*I* para **Intermediário**\n*A* para **Avançado**",
+                                   'nome_idioma', ASK_IDIOMA_NIVEL,
                                    lambda x: bool(x.strip()), "⚠️ **Nome do idioma inválido!** Por favor, digite o nome do idioma.")
 
 async def ask_idioma_nivel(update, context):
@@ -756,20 +755,20 @@ async def ask_idioma_nivel(update, context):
     
     idx = context.user_data['current_idioma_index']
     context.user_data['idiomas'][idx]['nivel'] = nivel
-    await update.message.reply_text(f"Em que **ano** você **iniciou** o curso de idioma {idx+1}? (Ex: 2020)", parse_mode='Markdown') 
+    await update.message.reply_text(f"Em que **ano** você **iniciou** o curso de idioma {idx+1}? (Ex: 2020)", parse_mode='Markdown')
     context.user_data['current_state'] = ASK_IDIOMA_INI
     return ASK_IDIOMA_INI
 
 async def ask_idioma_ini(update, context):
-    return await ask_text_standard(update, context, 
-                                   f"Em que **ano** você **concluiu** o idioma {context.user_data['current_idioma_index'] + 1}? Ou digite **Cursando** se ainda estiver estudando.\n\n*Ex: 2018 ou Cursando*", 
-                                   'ini', ASK_IDIOMA_FIM, 
+    return await ask_text_standard(update, context,
+                                   f"Em que **ano** você **concluiu** o idioma {context.user_data['current_idioma_index'] + 1}? Ou digite **Cursando** se ainda estiver estudando.\n\n*Ex: 2018 ou Cursando*",
+                                   'ini', ASK_IDIOMA_FIM,
                                    validar_ano_ou_cursando, "⚠️ **Entrada inválida!** Digite o ano com 4 dígitos (Ex: 2018) ou 'Cursando'.")
 
 async def ask_idioma_fim(update, context):
-    return await ask_text_standard(update, context, 
-                                   "Deseja adicionar **outro idioma**? Digite *S* para Sim ou *N* para Não.", 
-                                   'fim', ADD_IDIOMA, 
+    return await ask_text_standard(update, context,
+                                   "Deseja adicionar **outro idioma**? Digite *S* para Sim ou *N* para Não.",
+                                   'fim', ADD_IDIOMA,
                                    validar_ano_ou_cursando, "⚠️ **Entrada inválida!** Digite o ano com 4 dígitos (Ex: 2018) ou 'Cursando'.")
 
 async def add_idioma(update, context):
@@ -822,12 +821,12 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 def main():
     # Obtenha o token da variável de ambiente TELEGRAM_BOT_TOKEN
-    token = os.getenv('TELEGRAM_BOT_TOKEN') 
+    token = os.getenv('TELEGRAM_BOT_TOKEN')
     
     # Verifique se o token foi carregado
     if not token:
         logger.error("ERRO: O token do bot do Telegram não foi encontrado nas variáveis de ambiente.")
-        logger.error("Por favor, defina a variável de ambiente 'TELEGRAM_BOT_TOKEN' no Render.")
+        logger.error("Por favor, defina a variável de ambiente 'TELEGRAM_BOT_TOKEN' no PythonAnywhere.") # AJUSTADO AQUI
         return # Sai da função se o token não for encontrado
 
     application = ApplicationBuilder().token(token).build()
@@ -886,4 +885,8 @@ def main():
     application.run_polling()
 
 if __name__ == "__main__":
+    # Garante que as pastas 'data' e 'curriculos' existam no ambiente do PythonAnywhere
+    os.makedirs('data', exist_ok=True)
+    os.makedirs('curriculos', exist_ok=True)
+    
     main()
